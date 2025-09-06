@@ -1,0 +1,29 @@
+@media(max-width: 800px){
+    body{
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+    }
+    input{
+        width: 100%;/*横幅いっぱい*/
+        margin: 5px 0;
+    }
+    button{
+        width: 100%;
+        margin-left: 5px 0;
+    }
+}
+
+/*PC向け*/
+@media(min-width: 801px){
+    body{
+        font-family:Arial,sans-serif;
+        margin:20px;
+        font-size:16px;
+    }
+    input{
+        width:auto;
+    }
+    button{
+        width: auto;
+    }
+}

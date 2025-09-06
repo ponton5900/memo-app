@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../../../../../.."
+		},
+		{
+			"path": "../../../../../../../../../OneDrive - 近畿大学/デスクトップ/memo-app"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "memo-app"
+	}
+}
