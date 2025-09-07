@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-@CrossOrigin(origins = "http://192.168.10.111:5500")//Live
+@CrossOrigin(origins = "*")//Live
 @RestController
 @RequestMapping("/memos")
 public class MemoController {
