@@ -22,9 +22,8 @@ addBtn.addEventListener('click', () => {
 
     fetch('/memos', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' ,
-                    credentials: 'include'//セッションを送信
-        },
+        headers: { 'Content-Type': 'application/json'},
+        credentials: 'include',
         body: JSON.stringify({ title, content })
     })
     .then(res => res.json())
@@ -67,9 +66,8 @@ function fetchMemos(){
                     saveBtn.onclick=()=>{
                         fetch(`/memos/${index}`,{
                             method: 'PUT',
-                            headers: {'Content-Type': 'application/json',
-                            credentials: 'include'//セッションを送信
-                            },
+                            headers: {'Content-Type': 'application/json'},
+                            credentials: 'include',//セッションを送信
                             body: JSON.stringify({
                                 title: titleInput.value,
                                 content:contentInput.value
