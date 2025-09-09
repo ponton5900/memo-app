@@ -1,9 +1,9 @@
 const memoList = document.getElementById('memo-list');
 const addBtn = document.getElementById('addBtn');
 
-function getCsrfToken(){
-    const match=document.cookie.match(/XSRF-TOKEN=([^;]+)/);
-    return match ? decodeURIComponent(match[1]) : null;
+function getCsrfToken() {
+  const match = document.cookie.match(/XSRF-TOKEN=([^;]+)/);
+  return match ? decodeURIComponent(match[1]) : null;
 }
 
 function fetchMemos() {
