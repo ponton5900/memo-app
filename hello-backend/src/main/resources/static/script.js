@@ -84,4 +84,10 @@ addBtn.addEventListener('click', () => {
 });
 
 // ページロード時にメモ取得
-window.addEventListener('load', fetchMemos);
+window.addEventListener('load', ()=>{
+    fetch('/memos',{ credentials: 'include'})
+        .then(()=>{
+            //GETが完了したらメモを描画
+            fetchMemos();
+        });
+});
