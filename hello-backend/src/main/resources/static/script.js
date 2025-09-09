@@ -23,6 +23,8 @@ function fetchMemos() {
 
 addBtn.addEventListener('click', () => {
     const csrfToken=getCsrfToken();//ここで一度取得
+    console.log("CSRF Token:",csrfToken);
+
     const title = document.getElementById('title').value;
     const content = document.getElementById('content').value;
 
@@ -53,6 +55,8 @@ function fetchMemos(){
                 delBtn.textContent='削除';
                 delBtn.onclick=()=>{
                     const csrfToken=getCsrfToken();
+                    console.log("CSRF Token:",csrfToken);
+
                     fetch(`/memos/${index}`,{
                         method: 'DELETE',
                         headers:{
@@ -78,6 +82,8 @@ function fetchMemos(){
                     saveBtn.textContent='保存';
                     saveBtn.onclick=()=>{
                         const csrfToken=getCsrfToken();
+                        console.log("CSRF Token:",csrfToken);
+                        
                         fetch(`/memos/${index}`,{
                             method: 'PUT',
                             headers: {
