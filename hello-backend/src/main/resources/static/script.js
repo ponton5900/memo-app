@@ -1,8 +1,15 @@
 const memoList = document.getElementById('memo-list');
 const addBtn = document.getElementById('addBtn');
 
+//最初にユーザーに認証情報を入力してもらう
+const username=prompt("Username?");
+const password=prompt("Password?");
+const authHeader='Basic' + btoa(username + ':' + password);
+
 function fetchMemos() {
-    fetch('/memos')
+    fetch('/memos', {
+        headers: { 'Authorization': authHeader }
+    })
         .then(res => res.json())
         .then(data => {
             memoList.innerHTML = '';
@@ -20,7 +27,9 @@ addBtn.addEventListener('click', () => {
 
     fetch('/memos', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' ,
+                    'Authorization': authHeader
+        },
         body: JSON.stringify({ title, content })
     })
     .then(res => res.json())
@@ -41,7 +50,8 @@ function fetchMemos(){
                 delBtn.textContent='削除';
                 delBtn.onclick=()=>{
                     fetch(`/memos/${index}`,{
-                        method: 'DELETE'
+                        method: 'DELETE',
+                        headers: { 'Authorization': authHeader}
                     }).then(()=>fetchMemos());
                 };
 
@@ -62,7 +72,9 @@ function fetchMemos(){
                     saveBtn.onclick=()=>{
                         fetch(`/memos/${index}`,{
                             method: 'PUT',
-                            headers: {'Content-Type': 'application/json'},
+                            headers: {'Content-Type': 'application/json',
+                                        'Authorization': authHeader
+                            },
                             body: JSON.stringify({
                                 title: titleInput.value,
                                 content:contentInput.value
