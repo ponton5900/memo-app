@@ -22,6 +22,7 @@ function fetchMemos() {
 }
 
 addBtn.addEventListener('click', () => {
+    const csrfToken=getCsrfToken();//ここで一度取得
     const title = document.getElementById('title').value;
     const content = document.getElementById('content').value;
 
@@ -29,7 +30,7 @@ addBtn.addEventListener('click', () => {
         method: 'POST',
         headers: { 
             'Content-Type': 'application/json',
-            'X-XSRF-TOKEN': getCsrfToken()
+            'X-XSRF-TOKEN': csrfToken//変数をセット
         },
         credentials: 'include',
         body: JSON.stringify({ title, content })
@@ -51,10 +52,11 @@ function fetchMemos(){
                 const delBtn=document.createElement('button');
                 delBtn.textContent='削除';
                 delBtn.onclick=()=>{
+                    const csrfToken=getCsrfToken();
                     fetch(`/memos/${index}`,{
                         method: 'DELETE',
                         headers:{
-                            'X-XSRF-TOKEN': getCsrfToken()
+                            'X-XSRF-TOKEN': csrfToken//変数をセット
                         },
                         credentials: 'include'//セッションを送信
                     }).then(()=>fetchMemos());
@@ -75,11 +77,12 @@ function fetchMemos(){
                     const saveBtn=document.createElement('button');
                     saveBtn.textContent='保存';
                     saveBtn.onclick=()=>{
+                        const csrfToken=getCsrfToken();
                         fetch(`/memos/${index}`,{
                             method: 'PUT',
                             headers: {
                                 'Content-Type': 'application/json',
-                                'X-XSRF-TOKEN': getCsrfToken()
+                                'X-XSRF-TOKEN': csrfToken//変数をセット
                             },
                             credentials: 'include',//セッションを送信
                             body: JSON.stringify({
