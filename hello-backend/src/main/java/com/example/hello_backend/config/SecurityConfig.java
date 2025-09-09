@@ -12,9 +12,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-            )
+            .csrf().disable()//csrfチェックを完全に無効化
             .authorizeHttpRequests(auth -> auth
                 .anyRequest().authenticated()  // すべて認証が必要
             )
