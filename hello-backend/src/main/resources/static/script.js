@@ -22,7 +22,10 @@ addBtn.addEventListener('click', () => {
 
     fetch('/memos', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json'},
+        headers: { 
+            'Content-Type': 'application/json',
+            'X-XSRF-TOKEN': getCsrfToken()
+        },
         credentials: 'include',
         body: JSON.stringify({ title, content })
     })
@@ -45,6 +48,9 @@ function fetchMemos(){
                 delBtn.onclick=()=>{
                     fetch(`/memos/${index}`,{
                         method: 'DELETE',
+                        headers:{
+                            'X-XSRF-TOKEN': getCsrfToken()
+                        },
                         credentials: 'include'//セッションを送信
                     }).then(()=>fetchMemos());
                 };
@@ -66,7 +72,10 @@ function fetchMemos(){
                     saveBtn.onclick=()=>{
                         fetch(`/memos/${index}`,{
                             method: 'PUT',
-                            headers: {'Content-Type': 'application/json'},
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-XSRF-TOKEN': getCsrfToken()
+                            },
                             credentials: 'include',//セッションを送信
                             body: JSON.stringify({
                                 title: titleInput.value,
