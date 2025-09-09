@@ -1,14 +1,9 @@
 const memoList = document.getElementById('memo-list');
 const addBtn = document.getElementById('addBtn');
 
-//最初にユーザーに認証情報を入力してもらう
-const username=prompt("Username?");
-const password=prompt("Password?");
-const authHeader='Basic' + btoa(username + ':' + password);
-
 function fetchMemos() {
     fetch('/memos', {
-        headers: { 'Authorization': authHeader }
+        credentials: 'include'
     })
         .then(res => res.json())
         .then(data => {
@@ -28,7 +23,7 @@ addBtn.addEventListener('click', () => {
     fetch('/memos', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' ,
-                    'Authorization': authHeader
+                    credentials: 'include'//セッションを送信
         },
         body: JSON.stringify({ title, content })
     })
@@ -51,7 +46,7 @@ function fetchMemos(){
                 delBtn.onclick=()=>{
                     fetch(`/memos/${index}`,{
                         method: 'DELETE',
-                        headers: { 'Authorization': authHeader}
+                        credentials: 'include'//セッションを送信
                     }).then(()=>fetchMemos());
                 };
 
@@ -73,7 +68,7 @@ function fetchMemos(){
                         fetch(`/memos/${index}`,{
                             method: 'PUT',
                             headers: {'Content-Type': 'application/json',
-                                        'Authorization': authHeader
+                            credentials: 'include'//セッションを送信
                             },
                             body: JSON.stringify({
                                 title: titleInput.value,

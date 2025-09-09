@@ -14,7 +14,11 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .anyRequest().authenticated()  // すべて認証が必要
             )
-            .httpBasic(); // Basic認証を有効化
+            .formLogin()//フォームログインを有効か
+            .defaultSuccessUrl("/",true)//ログイン成功後
+            .and()
+            .logout()
+            .logoutSuccessUrl("/login");//ログアウト後の遷移
 
         return http.build();
     }
