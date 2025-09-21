@@ -13,9 +13,11 @@ public class Memo{
     private String title;
     private String content;
 
+    //JPA用のデフォルトコンストラクタ（必須）
+    public Memo(){}
+
     //コンストラクタ
-    public Memo(int id,String title,String content){
-        this.id=id;
+    public Memo(String title,String content){
         this.title=title;
         this.content=content;
     }
