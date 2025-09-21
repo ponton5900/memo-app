@@ -1,13 +1,23 @@
 package com.example.hello_backend;
 
 public class Memo{
+    private int id;
     private String title;
     private String content;
 
     //コンストラクタ
-    public Memo(String title,String content){
+    public Memo(int id,String title,String content){
+        this.id=id;
         this.title=title;
         this.content=content;
+    }
+
+    public int getId(){
+        return id;
+    }
+
+    public void setId(int id){
+        this.id=id;
     }
 
     public String getTitle(){

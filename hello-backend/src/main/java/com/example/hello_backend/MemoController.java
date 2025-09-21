@@ -17,70 +17,47 @@ import java.nio.file.Paths;
 public class MemoController {
     
     //メモを保存するリスト（今回はDBなし）
-    private List<Memo> memos=new ArrayList<>();
+    
     private final String FILE_NAME="memos.txt";
 
-    public MemoController(){
-        //サーバー起動時にファイルから読み込む
-        try{
-            File file=new File(FILE_NAME);
-            if(file.exists()){
-                List<String> lines=Files.readAllLines(file.toPath());
-                memos.clear();
-                for(String line: lines){
-                    String[] parts=line.split(",",2);//タイトル、内容
-                    if(parts.length==2){
-                        memos.add(new Memo(parts[0],parts[1]));
-                    }
-                }
+    private Map<Integer,Memo> memos=new HashMap<>();
+    private int nextId=1;
 
-            }
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-    }
-
-    private void saveToFile(){
-        try{
-            List<String> lines=memos.stream().map(m->m.getTitle()+","+m.getContent()).collect(Collectors.toList());
-            
-            Files.write(Paths.get(FILE_NAME),lines);
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-    }
     //メモを追加
     @PostMapping
     public ResponseEntity<Memo> addMemo(@RequestBody Memo memo){
-        memos.add(memo);
-        saveToFile();//追加したら保存
+        memo.setId(nextId);
+        memos.put(nextId,memo);//Mapに追加
+        nextId++;
+        //追加したら保存
         return ResponseEntity.ok(memo);
+        //失敗用のレスポンスがあってもいいかも
 
     }
 
     //メモを削除
-    @DeleteMapping("/{index}")
-    public ResponseEntity<?> deleteMemo(@PathVariable int index){
-        if(index>=0 && index<memos.size()){
-            Memo removed =memos.remove(index);
-            saveToFile();//削除したら保存
-
-            //削除したメモをJSONで返す
-            return ResponseEntity.ok(removed);
-        }else{
-            //エラーメッセージもJSONにする
-            Map<String,String> error=new HashMap<>();
-            error.put("error","無効な番号です");
-            return ResponseEntity.badRequest().body(error);
-        }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMemo(@PathVariable int id){
+            Memo removed =memos.remove(id);
+            //削除したら保存
+            if(removed==null){//指定された荷物が存在しない
+                return ResponseEntity.notFound().build();//404を返す
+            }
+            //削除成功
+            return ResponseEntity.noContent().build();//ボディは返さない
+            //204を返す
     }
 
     //メモを編集
-    @PutMapping("/{index}")
-    public ResponseEntity<?> updateMemo(@PathVariable int index, @RequestBody Memo updatedMemo){
-        if(index>=0 && index<memos.size()){
-            Memo memo=memos.get(index);
-
+    @PutMapping("/{id}")
+    public ResponseEntity<Memo> updateMemo(@PathVariable int id, @RequestBody Memo updatedMemo){
+        
+            Memo memo=memos.get(id);
+            if(memo==null){
+                return ResponseEntity.notFound().build();//存在しない場合404を返す
+            }
+            
+            //変更をしていないところをヌルにしないようにする
             if(updatedMemo.getTitle() !=null){
                 memo.setTitle(updatedMemo.getTitle());
             }
@@ -88,18 +65,13 @@ public class MemoController {
                 memo.setContent(updatedMemo.getContent());
             }
             
-            saveToFile();//更新したら保存
-            return ResponseEntity.ok(memo);
-        }else{
-            Map<String,String> error=new HashMap<>();
-            error.put("error","無効な番号です");
-            return ResponseEntity.badRequest().body(error);
-        }
+            //更新したら保存
+            return ResponseEntity.ok(memo);//更新後の荷物返す
     }
 
     //メモ一覧を取得
     @GetMapping
     public List<Memo> getMemos(){
-        return memos;
+        return new ArrayList<>(memos.values());
     }
 }

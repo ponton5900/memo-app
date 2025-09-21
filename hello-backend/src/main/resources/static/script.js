@@ -13,7 +13,7 @@ function fetchMemos() {
         .then(res => res.json())
         .then(data => {
             memoList.innerHTML = '';
-            data.forEach((memo, index) => {
+            data.forEach((memo, id) => {
                 const div = document.createElement('div');
                 div.textContent = `${memo.title} : ${memo.content}`;
                 memoList.appendChild(div);
@@ -47,7 +47,7 @@ function fetchMemos(){
         .then(res=>res.json())
         .then(data=>{
             memoList.innerHTML='';
-            data.forEach((memo,index)=>{
+            data.forEach((memo,id)=>{
                 const div=document.createElement('div');
                 div.textContent=`${memo.title} : ${memo.content}`;
 
@@ -57,7 +57,7 @@ function fetchMemos(){
                     const csrfToken=getCsrfToken();
                     console.log("CSRF Token:",csrfToken);
 
-                    fetch(`/memos/${index}`,{
+                    fetch(`/memos/${id}`,{
                         method: 'DELETE',
                         headers:{
                             'X-XSRF-TOKEN': csrfToken//変数をセット
@@ -84,7 +84,7 @@ function fetchMemos(){
                         const csrfToken=getCsrfToken();
                         console.log("CSRF Token:",csrfToken);
                         
-                        fetch(`/memos/${index}`,{
+                        fetch(`/memos/${id}`,{
                             method: 'PUT',
                             headers: {
                                 'Content-Type': 'application/json',
